@@ -61,7 +61,7 @@ public class Julia {
 	public int diverfgenceIndex(Complex z0) {
 		int ite =0;
 		Complex zn = z0;
-		while(ite <255 && zn.module() < 2 ) {
+		while(ite <iterations && zn.module() < 2 ) {
 			zn =Complex.somme( c,Complex.multiplication(zn, zn) );
 			ite ++;
 		}
