@@ -11,6 +11,10 @@ public class Complex {
 		imaginary = y;
 	}
 	
+	public Complex(String stringComplex) {
+		
+	}
+	
 	public double getReal() {
 		return this.real;
 	}

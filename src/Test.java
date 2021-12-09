@@ -5,7 +5,7 @@ public class Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Julia julia = new Julia(new Complex(-0.7269,0.1889),1000,1000,1000);
+		/*Julia julia = new Julia(new Complex(-0.7269,0.1889),1000,1000,1000);
 		var img=new BufferedImage(julia.getWidth(), julia.getHeight(), BufferedImage.TYPE_INT_RGB);
 		for(int i =0;i<img.getWidth();i++) {
 			for(int j = 0;j<img.getHeight();j++) {
@@ -20,9 +20,9 @@ public class Test {
 					
 				}
 			}
-         }
-		ImagePanel imagePanel = new ImagePanel(img);
-		Fenetre f = new Fenetre(imagePanel);
+         }*/
+		//ImagePanel imagePanel = new ImagePanel(img);
+		Fenetre f = new Fenetre();
 		f.setVisible(true);
 		
 	}
