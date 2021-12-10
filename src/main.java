@@ -66,7 +66,7 @@ public class main {
 			
 		}
 		//System.out.println("a = "+a+" b="+b);
-		Julia julia = new Julia(new Complex(-0.7269,0.1889),1001,1001,1000);
+		/*Julia julia = new Julia(new Complex(-0.7269,0.1889),1001,1001,1000);
 		var img=new BufferedImage(julia.getWidth(), julia.getHeight(), BufferedImage.TYPE_INT_RGB);
 		int x=0,y=0;
 		for(int i = 0;i<1000;i++) {
@@ -94,7 +94,7 @@ public class main {
 			ImageIO.write(img, "PNG", f);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 }

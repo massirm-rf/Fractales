@@ -38,6 +38,7 @@ public class Fenetre extends JFrame {
 	private JSlider greenSlider;
 	private JSlider blueSlider;
 	private JButton CalculerButton;
+	private JButton SaveButton;
 	private Controleur controleur;
 	/**
 	 * Launch the application.
@@ -129,7 +130,7 @@ public class Fenetre extends JFrame {
 		panneauInfo.add(itterationsLabel);
 		
 		CalculerButton = new JButton("Calculer");
-		CalculerButton.setBounds(156, 159, 117, 25);
+		CalculerButton.setBounds(190, 159, 130, 25);
 		panneauInfo.add(CalculerButton);
 		
 		redSlider = new JSlider();
@@ -155,6 +156,11 @@ public class Fenetre extends JFrame {
 		blueSlider.setPaintTicks(true);
 		blueSlider.setBounds(60, 450, 280, 60);
 		panneauInfo.add(blueSlider);
+		
+		SaveButton = new JButton("Enregestrer");
+		SaveButton.setEnabled(false);
+		SaveButton.setBounds(27, 159, 130, 25);
+		panneauInfo.add(SaveButton);
 		
 		this.controleur = new Controleur(this);
 		imagePane.setBounds(0, 0, 846, 800);
@@ -218,8 +224,14 @@ public class Fenetre extends JFrame {
 	public JButton getCalculerButton() {
 		return CalculerButton;
 	}
-	
-	
+
+	public JButton getSaveButton() {
+		return SaveButton;
+	}
+
+	public Controleur getControleur() {
+		return controleur;
+	}
 	
 	
 }
