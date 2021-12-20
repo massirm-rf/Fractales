@@ -33,6 +33,7 @@ public class Controleur {
 		this.fenetre.getCalculerButton().addActionListener(l ->dessiner());
 		this.fenetre.getRedSlider().addChangeListener(l->modifyred());
 		this.fenetre.getSaveButton().addActionListener(l->saveButtonAction());
+		this.fenetre.getGreenSlider().addChangeListener(l->modifyGreen());
 	}
 	
 	public void dessiner() {
@@ -40,10 +41,10 @@ public class Controleur {
 		var img=new BufferedImage(julia.getWidth(), julia.getHeight(), BufferedImage.TYPE_INT_RGB);
 		for(int i =0;i<julia.getWidth();i++) {
 			for(int j = 0;j<julia.getHeight();j++) {
-				Complex z = julia.toComplex(i, j);
-				int it = julia.diverfgenceIndex(z);
+				Complex z = julia.toComplex2(i, j);//à modifier
+				int it = julia.diverfgenceIndex2(z);//à verifier
 				//System.out.println(it);
-				if(it>=1000) {
+				if(it>=julia.getIterations()) {
 					img.setRGB(i,j,(0 << 16) + (0 << 8) + 0);
 				}else {
 					int rgb=Color.HSBtoRGB((float)it/julia.getIterations(), 0.7f, 0.7f);
@@ -61,8 +62,8 @@ public class Controleur {
 		var img=new BufferedImage(julia.getWidth(), julia.getHeight(), BufferedImage.TYPE_INT_RGB);
 		for(int i =0;i<julia.getWidth();i++) {
 			for(int j = 0;j<julia.getHeight();j++) {
-				Complex z = julia.toComplex(i, j);
-				int it = julia.diverfgenceIndex(z);
+				Complex z = julia.toComplex2(i, j);
+				int it = julia.diverfgenceIndex2(z);
 				//int green = fenetre.getImagePane().getImage().getRGB(i, j);
 				if(it>=1000) {
 					img.setRGB(i,j,fenetre.getRedSlider().getValue() + (0 << 8) + 0);
@@ -76,10 +77,29 @@ public class Controleur {
 		fenetre.getImagePane().setImage(img);
 	}
 	
+	public void modifyGreen() {
+		var img=new BufferedImage(julia.getWidth(), julia.getHeight(), BufferedImage.TYPE_INT_RGB);
+		
+		for(int i =0;i<julia.getWidth();i++) {
+			for(int j = 0;j<julia.getHeight();j++) {
+				Complex z = julia.toComplex2(i, j);
+				int it = julia.diverfgenceIndex2(z);
+				//int green = fenetre.getImagePane().getImage().getRGB(i, j);
+				if(it>=1000) {
+					img.setRGB(i,j,0 << 16 + (fenetre.getGreenSlider().getValue() << 8) + 0);
+				}else {
+					int rgb=Color.HSBtoRGB((float)it/julia.getIterations(), 0.7f, 0.7f);
+					int rgb2 =  (it << fenetre.getRedSlider().getValue()) + (fenetre.getGreenSlider().getValue() << 8) + it;
+					img.setRGB(i,j, rgb2);
+				}
+			}
+		}
+		fenetre.getImagePane().setImage(img);
+	}
+	
 	public void saveButtonAction() {
 		File f = new File("../Fractales generees/"+fenetre.getConstante().getText()+" "+fenetre.getLargeur().getText()+
 				"*"+fenetre.getLongueur().getText()+" "+fenetre.getItterations().getValue()+".png");
-		//File f = new File("../Fractales generees/"+"fractales.png");
 		try {
 			ImageIO.write(fenetre.getImagePane().getImage(), "PNG", f);
 		} catch (IOException e) {

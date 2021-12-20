@@ -21,7 +21,7 @@ import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.UIManager;
 
-public class Fenetre extends JFrame {
+public class Fenetre extends JFrame{
 
 	private ImagePanel imagePane;
 	private JPanel panneauInfo;
