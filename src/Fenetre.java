@@ -21,7 +21,7 @@ import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.UIManager;
 
-public class Fenetre extends JFrame{
+public class Fenetre extends JFrame implements Zoomable{
 
 	private ImagePanel imagePane;
 	private JPanel panneauInfo;
@@ -74,7 +74,7 @@ public class Fenetre extends JFrame{
 		//imagePane = image;
 		
 		
-		panneauInfo.setBounds(846, 0, 400, 800);
+		panneauInfo.setBounds(800, 0, 400, 800);
 		panneauInfo.setLayout(null);
 		//panneauInfo.setBounds(0, 0, 800, 800);
 	    try {
@@ -100,7 +100,7 @@ public class Fenetre extends JFrame{
 		panneauInfo.add(constanteLabel);
 		
 	    largeur = new JTextField();
-	    largeur.setText("600");
+	    largeur.setText("800");
 		largeur.setToolTipText("");
 		largeur.setBounds(220, 60, 120, 25);
 		panneauInfo.add(largeur);
@@ -111,7 +111,7 @@ public class Fenetre extends JFrame{
 		panneauInfo.add(LargeurLabel);
 		
 		longueur = new JTextField();
-		longueur.setText("600");
+		longueur.setText("800");
 		longueur.setBounds(220, 90, 120, 25);
 		panneauInfo.add(longueur);
 		
@@ -163,7 +163,7 @@ public class Fenetre extends JFrame{
 		panneauInfo.add(SaveButton);
 		
 		this.controleur = new Controleur(this);
-		imagePane.setBounds(0, 0, 846, 800);
+		imagePane.setBounds(0, 0, 800, 800);
 		getContentPane().add(imagePane);
 		
 	}
@@ -231,6 +231,33 @@ public class Fenetre extends JFrame{
 
 	public Controleur getControleur() {
 		return controleur;
+	}
+
+	@Override
+	public int height() {
+		return this.controleur.getJulia().getHeight();
+	}
+
+	@Override
+	public int width() {
+		
+		return this.controleur.getJulia().getWidth();
+	}
+	
+
+	@Override
+	public void zoom(Point center, double factor) {
+		//System.out.println(center);
+		double largeur = (this.controleur.getJulia().getMaxR() - this.controleur.getJulia().getMinR()) * factor;
+		//System.out.println("largeur : "+largeur);
+		Complex complexCenter = controleur.getJulia().toComplex(center);
+		this.controleur.getJulia().setMinR(complexCenter.getReal() - largeur / 2);  
+		this.controleur.getJulia().setMaxR(complexCenter.getReal() + largeur / 2);  
+		this.controleur.getJulia().setMinI(complexCenter.getImaginary() + largeur / 2) ;
+		this.controleur.getJulia().setMaxI(complexCenter.getImaginary() - largeur / 2) ;
+		/*System.out.println("minR :"+ this.controleur.getJulia().getMinR()
+				+ " maxR : "+controleur.getJulia().getMaxR()+"minI : "+controleur.getJulia().getMinI()+
+				" maxI :"+controleur.getJulia().getMaxI());*/
 	}
 	
 	

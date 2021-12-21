@@ -10,7 +10,7 @@ public class Julia {
 	private Complex c ;
 	private int width,height;
 	private int iterations;
-	private double pas,minI,maxI;
+	private double pas,minI,maxI,minR,maxR;
 	private Parser parser;
 	
 	
@@ -42,13 +42,15 @@ public class Julia {
 		this.parser = parser;
 	}
 	
-	public Julia(Complex c,int iterations,double minI, double maxI, double pas) {
+	public Julia(Complex c,int iterations,double minR , double maxR, double minI, double maxI, double pas) {
 		this.c = c;
 		this.iterations = iterations;
 		this.minI = minI;
 		this.maxI = maxI;
 		this.pas = pas;
-		this.width = (int) ( (maxI -minI)/pas +1 ) ;
+		this.minR = minR;
+		this.maxR = maxR;
+		this.width = (int) ( (maxR -minR)/pas +1 ) ;
 		this.height = (int) ( (maxI -minI)/pas +1 );
 
 	}
@@ -91,6 +93,22 @@ public class Julia {
 
 	public void setPas(double pas) {
 		this.pas = pas;
+	}
+
+	public double getMinR() {
+		return minR;
+	}
+
+	public void setMinR(double minR) {
+		this.minR = minR;
+	}
+
+	public double getMaxR() {
+		return maxR;
+	}
+
+	public void setMaxR(double maxR) {
+		this.maxR = maxR;
 	}
 
 	public double getMinI() {
@@ -232,6 +250,13 @@ public class Julia {
 				+ "le repertoire Fractales generees sous le nom " + c + " " + width + "*" + height + " " + iterations
 				+ ".png");
 	}
+	
+	public Complex toComplex(Point p){
+        double real = this.minR + p.x * (this.maxR - this.minR) / (width - 1);
+        double imaginary = this.maxI + p.y * (this.minI - this.maxI) / (height - 1);
+
+        return new Complex(real, imaginary);
+    }
 	
 
 }

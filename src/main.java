@@ -21,9 +21,9 @@ public class main {
 		Complex c = Complex.stringToComplex(str);
 		Julia julia = new Julia(c);
 		int width,height,iterations,choix;
-		double pas,minI,maxI;
+		double pas,minR,maxR,minI,maxI;
 		System.out.println("Choisissez le mode de de generation de fractale\n");
-		System.out.println("1- L'utilisateur saisivar img=new BufferedImage(julia.getWidth(), julia.getHeight(), BufferedImage.TYPE_INT_RGB);e le pas et rectangle de travail sur C");
+		System.out.println("1- L'utilisateur saisie le pas et rectangle de travail sur C");
 		System.out.println("2- L'utilisateur saisie la dimensions de l'image (le pas sera adpte par l'application )");
 		choix = scan.nextInt();
 		switch(choix) {
@@ -33,11 +33,15 @@ public class main {
 			iterations = scan.nextInt();
 			System.out.println("entrer le pas de discretisation");
 			pas = scan.nextDouble();
+			System.out.println("entrer le minR du rectanngle du travail");
+			minR = scan.nextDouble();
+			System.out.println("entrer le maxR du rectanngle du travail");
+			maxR = scan.nextDouble();
 			System.out.println("entrer le minI du rectanngle du travail");
 			minI = scan.nextDouble();
 			System.out.println("entrer le maxI du rectanngle du travail");
 			maxI = scan.nextDouble();
-			julia = new Julia(c,iterations,minI,maxI,pas);
+			julia = new Julia(c,iterations,minR,maxR,minI,maxI,pas);
 			julia.generateImage();
 			break;
 		case 2 : 

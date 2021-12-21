@@ -15,9 +15,6 @@ public class Complex {
 		
 	}
 	
-	public double getReal() {
-		return this.real;
-	}
 
 	public void setReal(double r) {
 		this.real = r;
@@ -63,7 +60,7 @@ public class Complex {
 		return z.real == real && z.imaginary ==imaginary;  
 	}
 	
-	public double getReel() {
+	public double getReal() {
 		return real;
 	}
 	
