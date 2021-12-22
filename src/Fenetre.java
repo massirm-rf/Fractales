@@ -40,22 +40,7 @@ public class Fenetre extends JFrame implements Zoomable{
 	private JButton CalculerButton;
 	private JButton SaveButton;
 	private Controleur controleur;
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Fenetre frame = new Fenetre();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
-
+	
 	/**
 	 * Create the frame.
 	 */
@@ -70,23 +55,19 @@ public class Fenetre extends JFrame implements Zoomable{
 		//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		//setContentPane(contentPane);
 		//getContentPane().setLayout(new GridLayout());
-		getContentPane().setLayout(null);
-		//imagePane = image;
-		
+		getContentPane().setLayout(null);		
 		
 		panneauInfo.setBounds(800, 0, 400, 800);
 		panneauInfo.setLayout(null);
-		//panneauInfo.setBounds(0, 0, 800, 800);
+		
 	    try {
-			imagePane = (new ImagePanel("abstract-fractal-background-11.png"));
+			imagePane = (new ImagePanel("../images/abstract-fractal-background-11.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		constante = new JTextField(10);
 		constante.setText("-0.7269+0.1889i");
-		//constante.setForeground(Color.WHITE);
-		//constante.setBackground(Color.WHITE);
 		constante.setBounds(220, 30, 120, 25);
 		panneauInfo.add(constante);
 		constante.setColumns(10);

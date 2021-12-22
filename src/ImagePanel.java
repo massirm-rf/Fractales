@@ -1,3 +1,4 @@
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -35,7 +36,8 @@ public class ImagePanel extends JPanel{
 	
 	public void setImage(BufferedImage image) {
         this.image = image;
-        repaint();
+        this.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+       // repaint();
     }
 	
 	public void setImage(String path) throws IOException {
@@ -53,13 +55,19 @@ public class ImagePanel extends JPanel{
 	 }
 	 
 	 @Override
-	    public void paintComponent(Graphics g){
-	        if(image!=null){
-	            Graphics2D g2d = (Graphics2D)g;
-	            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-	            g2d.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-	        }
-	    }
+		public void paintComponent(Graphics g) {
+
+			if (image != null) {
+				Graphics2D g2d = (Graphics2D) g;
+				g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+				g2d.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+			}
+
+			/*
+			 * super.paintComponent(g); g.drawImage(image, 0, 0, image.getWidth(),
+			 * image.getHeight(), null);
+			 */
+		}
 	 
 	
 }

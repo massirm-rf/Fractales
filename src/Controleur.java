@@ -37,11 +37,9 @@ public class Controleur {
 	}
 
 
-
 	public void setJulia(Julia julia) {
 		this.julia = julia;
 	}
-
 
 
 	public void initialiserJulia() {

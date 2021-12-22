@@ -151,7 +151,6 @@ public class Julia {
 		Complex zn = z0;
 		while(ite <iterations && zn.module() < 2 ) {
 			zn  = Complex.somme( c,Complex.multiplication(zn, zn) );
-			//System.out.println(zn);
 			ite ++;
 		}
 		return ite;
