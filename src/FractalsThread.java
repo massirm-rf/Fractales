@@ -18,10 +18,9 @@ public class FractalsThread extends Thread {
 
 	@Override
 	public void run() {
-		for(int i =startX;i<endY;i++) {
-			
+		
 		}
-	}
+	
 	
 	
 	

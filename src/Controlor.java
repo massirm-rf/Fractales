@@ -3,6 +3,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
@@ -12,7 +13,7 @@ public class Controlor {
 
 	private ChoiseFrame choiseFrame;
 	private FractalPane fractalPane;
-	private Julia julia;
+	private static Julia julia;
 
 	public Controlor(ChoiseFrame choiseframe) {
 		this.choiseFrame = choiseframe;
@@ -57,24 +58,49 @@ public class Controlor {
 		this.julia.setMinR(-1);
 		this.julia.setMaxR(1);
 	}
+	
+	
 
 	public void draw() {
 		initialisateJulia();
 		var img = new BufferedImage(julia.getWidth(), julia.getHeight(), BufferedImage.TYPE_INT_RGB);
-		for (int i = 0; i < julia.getWidth(); i++) {
-			for (int j = 0; j < julia.getHeight(); j++) {
-				Complex z = julia.toComplex2(i, j);// à modifier
-				int it = julia.diverfgenceIndex2(z);// à verifier
-				if (it >= julia.getIterations()) {
-					img.setRGB(i, j, (0 << 16) + (0 << 8) + 0);
-				} else {
-					int rgb = Color.HSBtoRGB((float) it / julia.getIterations(), 0.7f, 0.7f);
-					int rgb2 = (it << 16) + (it << 8) + it;
-					img.setRGB(i, j, rgb);
-				}
+		
+		ArrayList<Thread> threadsList = new ArrayList<Thread>();
+		
+		Thread.UncaughtExceptionHandler eHandler = new Thread.UncaughtExceptionHandler() {
+            public void uncaughtException(Thread th, Throwable ex) {
+            th.interrupt();
+            threadsList.remove(th);
+            if(threadsList.isEmpty())fractalPane.getImagePane().repaint();
+        }
+		};    
+		
+		//creation de 4 threads (chacun va calculer 1/4 des pixels de l'image)
+		for(int i=0;i<2;i++) {
+			for(int j = 0;j<2;j++) {
+				int startX = i * julia.getWidth()/2;
+				int endX = (i+1) * julia.getWidth()/2;
+				int startY = j * julia.getHeight()/2;
+				int endY = (j+1) * julia.getHeight()/2;
+				Thread th = new Thread(new MyRunnable(startX, startY, endX, endY, img));
+				th.setUncaughtExceptionHandler(eHandler);
+				threadsList.add(th);
 			}
 		}
-		//ImagePanel panelImage = new ImagePanel(img)
+		
+		
+		
+		for(int i=0;i<4;i++) {
+			threadsList.get(i).start();
+			try {
+				threadsList.get(i).join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
 		fractalPane.getImagePane().setImage(img);
 	}
 
@@ -162,11 +188,48 @@ public class Controlor {
 					fractalPane.zoom(p, 1.5);
 					update();
 					fractalPane.getImagePane().repaint();
-					// System.out.println("Bouton droit clicked");
+					
 				}
 
 			}
 		});
+	}
+	
+	
+	static class MyRunnable implements Runnable{
+		
+		private int startX,startY,endX,endY;
+		private BufferedImage image;
+		
+		public MyRunnable(int startX, int startY, int endX, int endY, BufferedImage image) {
+			super();
+			this.startX = startX;
+			this.startY = startY;
+			this.endX = endX;
+			this.endY = endY;
+			this.image = image;
+		}
+
+
+		@Override
+		public void run() {
+
+			for (int i = startX; i < endX; i++) {
+				for (int j = startY; j < endY; j++) {
+					Complex z = julia.toComplex2(i, j);
+					int it = julia.diverfgenceIndex2(z);
+					if (it >= julia.getIterations()) {
+						image.setRGB(i, j, (0 << 16) + (0 << 8) + 0);
+					} else {
+						int rgb=Color.HSBtoRGB((float)it/julia.getIterations(), 0.7f, 0.7f);
+						int rgb2 = (it << 16) + (it << 8) + it;
+						image.setRGB(i, j, rgb);
+						
+					}
+				}
+			}
+		}
+		
 	}
 
 }
