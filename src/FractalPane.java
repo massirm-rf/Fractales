@@ -10,25 +10,10 @@ public class FractalPane extends JFrame implements Zoomable {
 	private Controlor controleur;
 	private ChoiseFrame choiseFrame;
 	
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FractalPane window = new FractalPane();
-					window.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
-
-	/**
-	 * Create the application.
-	 */
 	public FractalPane(ChoiseFrame choiseFrame) {
 		initialize();
 		this.choiseFrame = choiseFrame;
+		
 	}
 
 	/**
@@ -36,7 +21,7 @@ public class FractalPane extends JFrame implements Zoomable {
 	 */
 	private void initialize() {
 		this.setResizable(false);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 		this.imagePanel = new ImagePanel();
 		
@@ -86,7 +71,7 @@ public class FractalPane extends JFrame implements Zoomable {
 	@Override
 	public void zoom(Point center, double factor) {
 		
-		double largeur = (this.controleur.getJulia().getMaxR() - this.controleur.getJulia().getMinR()) * factor;
+		    double largeur = (this.controleur.getJulia().getMaxR() - this.controleur.getJulia().getMinR()) * factor;
 			Complex complexCenter = controleur.getJulia().toComplex(center);
 			this.controleur.getJulia().setMinR(complexCenter.getReal() - largeur / 2);  
 			this.controleur.getJulia().setMaxR(complexCenter.getReal() + largeur / 2);  
@@ -94,6 +79,4 @@ public class FractalPane extends JFrame implements Zoomable {
 			this.controleur.getJulia().setMaxI(complexCenter.getImaginary() - largeur / 2) ;
 			
 	}
-	
-	
 }

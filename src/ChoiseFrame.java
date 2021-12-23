@@ -2,13 +2,19 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
-import javax.swing.JList;
-import java.awt.List;
-import java.awt.Choice;
 import javax.swing.JComboBox;
+import java.awt.Color;
+import javax.swing.JToolBar;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 
 public class ChoiseFrame extends JFrame {
 
@@ -17,28 +23,21 @@ public class ChoiseFrame extends JFrame {
 	private JTextField constante;
 	private JTextField maxIteration;
 	private JButton drawButton;
+	private JButton saveButton;
+	private JButton saveAsButton;
+	private JButton aboutButton;
+	private JButton helpButton;
+	private JButton restoreButton;
+	private JButton exitButton;
 	private Controlor controleur;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ChoiseFrame window = new ChoiseFrame();
-					window.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
 	 */
 	public ChoiseFrame() {
+		getContentPane().setForeground(Color.WHITE);
+		getContentPane().setBackground(Color.DARK_GRAY);
 		initialize();
 	}
 
@@ -46,8 +45,9 @@ public class ChoiseFrame extends JFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		setBounds(100, 100, 450, 300);
+		setBounds(0, 0, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		getContentPane().setLayout(null);
 
 		width = new JTextField();
@@ -69,14 +69,17 @@ public class ChoiseFrame extends JFrame {
 		constante.setColumns(10);
 
 		JLabel constanteLabel = new JLabel("La constante");
+		constanteLabel.setForeground(Color.WHITE);
 		constanteLabel.setBounds(15, 90, 120, 20);
 		getContentPane().add(constanteLabel);
 
 		JLabel widthLabel = new JLabel("Largeur");
+		widthLabel.setForeground(Color.WHITE);
 		widthLabel.setBounds(180, 90, 120, 20);
 		getContentPane().add(widthLabel);
 
 		JLabel heightLabel = new JLabel("Longueur");
+		heightLabel.setForeground(Color.WHITE);
 		heightLabel.setBounds(334, 90, 120, 20);
 		getContentPane().add(heightLabel);
 
@@ -95,14 +98,60 @@ public class ChoiseFrame extends JFrame {
 		getContentPane().add(colorBox);
 
 		JLabel IterationsLabel = new JLabel("Iterations");
+		IterationsLabel.setForeground(Color.WHITE);
 		IterationsLabel.setBounds(33, 153, 120, 25);
 		getContentPane().add(IterationsLabel);
 
 		JLabel colorLabel = new JLabel("Couleurs");
+		colorLabel.setForeground(Color.WHITE);
 		colorLabel.setBounds(337, 153, 70, 25);
 		getContentPane().add(colorLabel);
-
+		
+		initialiserToolBar();
 		this.controleur = new Controlor(this);
+		
+		
+		
+	}
+	
+	public void initialiserToolBar() {
+		
+		JToolBar toolBar = new JToolBar();
+		toolBar.setFloatable(false);
+		toolBar.setBackground(Color.WHITE);
+		toolBar.setBounds(0, 0, 454, 25);
+		toolBar.setLayout(new GridLayout());
+		
+		
+		saveButton = new JButton(new ImageIcon("../images/save.png"));
+		saveButton.setFocusable(false);
+		saveButton.setToolTipText( "Save (CTRL+S)" );
+		toolBar.add(saveButton);
+		
+		saveAsButton = new JButton( new ImageIcon( "../images/saveAs-icone.png" ) );
+        saveAsButton.setToolTipText( "Save As..." );
+        toolBar.add( saveAsButton );
+        
+        restoreButton = new JButton(new ImageIcon("../images/undo.png"));
+        restoreButton.setToolTipText( "Revenir à la fractale initiale " );
+        toolBar.add(restoreButton);
+        
+        helpButton = new JButton(new ImageIcon("../images/help.png"));
+        helpButton.setToolTipText( "Aide" );
+        toolBar.add(helpButton);
+        
+        aboutButton = new JButton(new ImageIcon("../images/about.png"));
+        aboutButton.setToolTipText("A propos de l'application");
+        toolBar.add(aboutButton);
+        
+        toolBar.addSeparator();
+        
+        exitButton = new JButton(new ImageIcon("../images/exit.png"));
+        exitButton.setToolTipText("Exit (ALT+F4) ");
+        toolBar.add(exitButton);
+		
+        getContentPane().add(toolBar);
+		
 	}
 
 	public JTextField getLargeur() {
@@ -148,8 +197,30 @@ public class ChoiseFrame extends JFrame {
 	public void setControleur(Controlor controleur) {
 		this.controleur = controleur;
 	}
-	
-	
+
+	public JButton getSaveButton() {
+		return saveButton;
+	}
+
+	public JButton getSaveAsButton() {
+		return saveAsButton;
+	}
+
+	public JButton getAboutButton() {
+		return aboutButton;
+	}
+
+	public JButton getHelpButton() {
+		return helpButton;
+	}
+
+	public JButton getRestoreButton() {
+		return restoreButton;
+	}
+
+	public JButton getExitButton() {
+		return exitButton;
+	}
 	
 	
 }
