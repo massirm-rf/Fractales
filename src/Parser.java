@@ -142,36 +142,9 @@ public class Parser {
 				return z2;
 			}
 			default :
-				return new Complex(0,0);
+				return Complex.of(0,0);
 		}
 	}
-
-	/*public double appliquerFonction(Complex e, String fonction) throws InputException {
-		switch (fonction){
-			case("log"):
-				return Math.log(e);
-			case("log10"):
-				return Math.log10(e);
-			case("sqrt"):
-				return Math.sqrt(e);
-			case("cos"):
-				return Math.cos(e);
-			case("sin"):
-				return Math.sin(e);
-			case("tan"):
-				return Math.tan(e);
-			case("cosh"):
-				return Math.cosh(e);
-			case("sinh"):
-				return Math.sinh(e);
-			case("tanh"):
-				return Math.tanh(e);
-			case("abs"):
-				return Math.abs(e);
-			default:
-				throw new InputException();
-		}
-	}*/
 
 	public Complex calculer(Complex z) /*throws InputException */{
 		//parsing2();

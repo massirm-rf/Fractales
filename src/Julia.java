@@ -25,16 +25,6 @@ public class Julia {
 		this.iterations = iterations;
 	}
 	
-	public Julia(Complex c,int width,int height,int iterations,double minI, double maxI, double pas) {
-		this.c = c;
-		this.width = width;
-		this.height = height;
-		this.iterations = iterations;
-		this.minI = minI;
-		this.maxI = maxI;
-		this.pas = pas;
-	}
-	
 	public Julia(int width,int height,int iterations,Parser parser) {
 		this.width = width;
 		this.height = height;
@@ -138,7 +128,7 @@ public class Julia {
 	public int diverfgenceIndex(Complex z0) {
 		int ite =0;
 		Complex zn = z0;
-		double arg = new Complex(this.minI,this.maxI).module();
+		double arg = Complex.of(this.minI,this.maxI).module();
 		while(ite <iterations && zn.module() < arg ) {
 			zn =Complex.somme( c,Complex.multiplication(zn, zn) );
 			ite ++;
@@ -156,26 +146,17 @@ public class Julia {
 		return ite;
 	}
 	
-	/*public int divergenceIndex2(Complex z0) {
-		int ite =0;
-		Complex zn = z0;
-		while(ite <iterations && zn.module() < 2 ) {
-			zn =Complex.somme( c,Complex.multiplication(zn, zn) );
-			ite ++;
-		}
-		return ite;
-	}*/
 	
 	public Complex toComplex2(double i,double j){
         double realPart = -1 + i * (1 -(-1)) / (width - 1);
         double imaginaryPart = -1 + j * (1 - (-1)) / (height - 1);
-        return new Complex(realPart, imaginaryPart);
+        return Complex.of(realPart, imaginaryPart);
     }
 	//toComplex2
 	public Complex toComplex(double i,double j){
 		double realPart = (minI + i * (maxI -(minI)) / (width -1));
         double imaginaryPart = (minI + j *(maxI -minI) / (height -1) );
-        return new Complex(realPart, imaginaryPart);
+        return Complex.of(realPart, imaginaryPart);
     }
 	
 	public int [][] divIndexes(){
@@ -186,7 +167,7 @@ public class Julia {
 		for(int i= 0;i<longueur;i++) {
 			b=minI;
 			for(int z =0;z<largeur;z++) {
-				res[i][z]=diverfgenceIndex(new Complex(a, b));
+				res[i][z]=diverfgenceIndex(Complex.of(a, b));
 				b+=pas;
 			}
 			a+=pas;
@@ -254,8 +235,56 @@ public class Julia {
         double real = this.minR + p.x * (this.maxR - this.minR) / (width - 1);
         double imaginary = this.maxI + p.y * (this.minI - this.maxI) / (height - 1);
 
-        return new Complex(real, imaginary);
+        return Complex.of(real, imaginary);
     }
+	
+	
+	public static class Builder{
+		
+		private Complex c ;
+		private int width,height;
+		private int iterations;
+		private double pas,minI,maxI,minR,maxR;
+		
+		public Builder(Complex c,int itterations) {
+			this.c = c;
+			this.iterations = itterations;
+		}
+		
+		public Builder rectangle(double minR,double maxR,double minI,double maxI,double pas) {
+			this.minR = minR;
+			this.maxR = maxR;
+			this.minI = minI;
+			this.maxI = maxI;
+			this.pas = pas;
+			/*this.width = (int) ( (maxR -minR)/pas +1 ) ;
+			this.height = (int) ( (maxI -minI)/pas +1 );*/
+			return this;
+		}
+		
+		public Builder matrices(int width,int height) {
+			this.width = width;
+			this.height = height;
+			return this;
+		}
+		
+		public Julia build() {
+			return new Julia(this);
+		}
+		
+	}
+	
+	private Julia (Builder builder) {
+		c = builder.c;
+		iterations = builder.iterations;
+		minR = builder.minR;
+		maxR = builder.maxR;
+		minI = builder.minI;
+		maxI = builder.maxI;
+		width = builder.width;
+		height = builder.height;
+	}
+	
 	
 
 }

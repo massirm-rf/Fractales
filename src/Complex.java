@@ -1,31 +1,23 @@
 
 public class Complex {
 	
-	private double real,imaginary;
+	private final double real,imaginary;
 	public final static Complex ONE = new Complex(1,0);
 	public final static Complex ZERO = new Complex(0,0);
 	public final static Complex I = new Complex(0,1);
 	
-	public Complex(double x,double y) {
+	private Complex(double x,double y) {
 		real = x;
 		imaginary = y;
 	}
 	
-	public Complex(String stringComplex) {
-		
-	}
-	
-
-	public void setReal(double r) {
-		this.real = r;
+	//fabrique statique 
+	public static Complex of(double x,double y) {
+		return new Complex(x, y);
 	}
 
 	public double getImaginary() {
 		return imaginary;
-	}
-
-	public void setImaginary(double i) {
-		this.imaginary = i;
 	}
 	
 	public String toString(){

@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
+import javax.swing.JSpinner;
 
 public class ChoiseFrame extends JFrame {
 
@@ -45,6 +46,7 @@ public class ChoiseFrame extends JFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		setTitle("Fractal Generator");
 		setBounds(0, 0, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -109,8 +111,6 @@ public class ChoiseFrame extends JFrame {
 		
 		initialiserToolBar();
 		this.controleur = new Controlor(this);
-		
-		
 		
 	}
 	
@@ -221,6 +221,4 @@ public class ChoiseFrame extends JFrame {
 	public JButton getExitButton() {
 		return exitButton;
 	}
-	
-	
 }

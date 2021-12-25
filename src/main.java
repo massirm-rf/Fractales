@@ -1,15 +1,7 @@
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
-import java.util.Stack;
 
-import javax.imageio.ImageIO;
 public class main {
 
 	public static void main(String[] args) {
@@ -19,7 +11,7 @@ public class main {
 		String str = scan.nextLine();
 		str.replace("\\s+", "");
 		Complex c = Complex.stringToComplex(str);
-		Julia julia = new Julia(c);
+		Julia julia;
 		int width,height,iterations,choix;
 		double pas,minR,maxR,minI,maxI;
 		System.out.println("Choisissez le mode de de generation de fractale\n");
@@ -41,6 +33,7 @@ public class main {
 			minI = scan.nextDouble();
 			System.out.println("entrer le maxI du rectanngle du travail");
 			maxI = scan.nextDouble();
+			julia = new Julia.Builder(c, iterations).rectangle(minR, maxR, minI, maxI, pas).build();
 			julia = new Julia(c,iterations,minR,maxR,minI,maxI,pas);
 			julia.generateImage();
 			break;
@@ -51,7 +44,8 @@ public class main {
 			width = scan.nextInt();
 			System.out.println("entrer la longueur de la matrice en pixel");
 			height = scan.nextInt();
-			julia = new Julia(c,width,height,iterations);
+			///julia = new Julia(c,width,height,iterations);
+			julia = new Julia.Builder(c, iterations).matrices(width, height).build();
 			julia.generatFractale();
 			break;
 		default :
