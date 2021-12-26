@@ -1,7 +1,4 @@
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class FractalPane extends JFrame implements Zoomable {
 

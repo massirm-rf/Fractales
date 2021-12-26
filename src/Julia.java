@@ -2,10 +2,16 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
-public class Julia {
+public class Julia implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private Complex c ;
 	private int width,height;
@@ -237,7 +243,6 @@ public class Julia {
 
         return Complex.of(real, imaginary);
     }
-	
 	
 	public static class Builder{
 		

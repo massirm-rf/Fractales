@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Complex {
+public class Complex implements Serializable{
 	
 	private final double real,imaginary;
 	public final static Complex ONE = new Complex(1,0);
@@ -21,7 +22,9 @@ public class Complex {
 	}
 	
 	public String toString(){
-		return real+" + "+imaginary+"i";
+		String stringOfReal = ""+real;
+		String stringOfImaginary = (imaginary >= 0 ? "+"+imaginary : ""+imaginary)+"i"; 
+		return stringOfReal+stringOfImaginary;
 	}
 	
 	public static Complex somme(Complex z1, Complex z2) {

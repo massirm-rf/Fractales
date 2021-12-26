@@ -1,21 +1,19 @@
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+
 import java.awt.Color;
 import javax.swing.JToolBar;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
-import javax.swing.ImageIcon;
-import javax.swing.JSpinner;
 
 public class ChoiseFrame extends JFrame {
 
@@ -30,22 +28,25 @@ public class ChoiseFrame extends JFrame {
 	private JButton helpButton;
 	private JButton restoreButton;
 	private JButton exitButton;
+	private JComboBox colorBox;
+	private JButton favoriteButton;
+	private JButton myFavoritsButton;
 	private Controlor controleur;
 
 
 	/**
 	 * Create the application.
 	 */
-	public ChoiseFrame() {
+	public ChoiseFrame(Controlor controleur) {
 		getContentPane().setForeground(Color.WHITE);
 		getContentPane().setBackground(Color.DARK_GRAY);
-		initialize();
+		initialize(controleur);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(Controlor controleur) {
 		setTitle("Fractal Generator");
 		setBounds(0, 0, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -86,6 +87,7 @@ public class ChoiseFrame extends JFrame {
 		getContentPane().add(heightLabel);
 
 		drawButton = new JButton("Dessiner");
+		drawButton.setToolTipText("generer la fractale");
 		drawButton.setBounds(163, 180, 117, 25);
 		getContentPane().add(drawButton);
 
@@ -95,7 +97,7 @@ public class ChoiseFrame extends JFrame {
 		getContentPane().add(maxIteration);
 		maxIteration.setColumns(10);
 
-		JComboBox colorBox = new JComboBox();
+		colorBox = new JComboBox();
 		colorBox.setBounds(309, 180, 119, 24);
 		getContentPane().add(colorBox);
 
@@ -108,10 +110,28 @@ public class ChoiseFrame extends JFrame {
 		colorLabel.setForeground(Color.WHITE);
 		colorLabel.setBounds(337, 153, 70, 25);
 		getContentPane().add(colorLabel);
-		
+
+	    myFavoritsButton = new JButton();
+	    myFavoritsButton.setToolTipText("Ma liste de fractales");
+	    myFavoritsButton.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent arg0) {
+	    	}
+	    });
+		myFavoritsButton.setFont(new Font("Dialog", Font.BOLD, 11));
+		myFavoritsButton.setText("Mes Fractales");
+		myFavoritsButton.setBounds(10, 54, 124, 25);
+		getContentPane().add(myFavoritsButton);
+
+		favoriteButton = new JButton(new ImageIcon("../images/star.png"));
+		favoriteButton.setToolTipText("Ajouter à mes fractales");
+		favoriteButton.setContentAreaFilled(false);
+		favoriteButton.setFocusable(false);
+		favoriteButton.setBounds(388, 37, 40, 40);
+		getContentPane().add(favoriteButton);
+
 		initialiserToolBar();
-		this.controleur = new Controlor(this);
-		
+		this.controleur = controleur;
+
 	}
 	
 	public void initialiserToolBar() {
@@ -221,4 +241,20 @@ public class ChoiseFrame extends JFrame {
 	public JButton getExitButton() {
 		return exitButton;
 	}
+
+	public JComboBox getColorBox() {
+		return colorBox;
+	}
+
+	public JButton getFavoriteButton() {
+		return favoriteButton;
+	}
+
+	public JButton getMyFavoritsButton() {
+		return myFavoritsButton;
+	}
+
+	
+	
+	
 }

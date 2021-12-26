@@ -1,9 +1,13 @@
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -21,13 +25,27 @@ public class Controlor {
 	private ListeUsers listeUsers = new ListeUsers();
 	private User user;
 	private Accueil accueil;
+	private ListeUsers listUsers;
 
 	public Controlor(ChoiseFrame choiseframe) {
-		this.accueil = new Accueil(this);
 		this.choiseFrame = choiseframe;
 		this.fractalPane = new FractalPane(choiseframe);
 		this.fractalPane.setControleur(this);
 		this.savePath = "../Fractales generees/";
+		this.listeUsers = new ListeUsers();		//this.accueil = new Accueil();
+		addActions();
+	}
+	
+	public Controlor(Accueil accueil) {
+		this.accueil = accueil;
+		this.choiseFrame = new ChoiseFrame(this);
+		this.fractalPane = new FractalPane(this.choiseFrame);
+		this.fractalPane.setControleur(this);
+		this.savePath = "../Fractales generees/";
+		/*this.fractalPane = new FractalPane();
+		this.fractalPane.setControleur(this);
+		this.savePath = "../Fractales generees/";*/
+		//this.accueil = new Accueil();
 		addActions();
 	}
 
@@ -102,7 +120,7 @@ public class Controlor {
                           (int) (150000 *(Math.sin(it+600))+700);
 					int rgb=Color.HSBtoRGB((float)it/julia.getIterations(), 0.7f, 0.7f);
 					int rgb2 = (it << 16) + (it << 8) + it;
-					img.setRGB(i, j, rgb3);
+					img.setRGB(i, j, rgb);
 				}
 			}
 		}	
@@ -172,7 +190,9 @@ public class Controlor {
 			fractalPane.getImagePane().repaint();
 		});
 		choiseFrame.getExitButton().addActionListener(l->exitListner());
-		//accueil.getConnexionButton().addActionListener(l->connect());
+		accueil.getConnexionButton().addActionListener(l->connect());
+		choiseFrame.getFavoriteButton().addActionListener(l->favoriteAction());
+		choiseFrame.getMyFavoritsButton().addActionListener(l->loadFavoriteAction());
 		zoomListner();
 	}
 	
@@ -234,19 +254,54 @@ public class Controlor {
 	
 	public void connect() {
 		String userName = JOptionPane.showInputDialog(accueil, "Veuiller saisir votre username");
-		if(userName !=null ) {
-			if(!listeUsers.Existe(userName)) {
+		if (userName != null) {
+			if (!listeUsers.Existe(userName)) {
 				user = new User(userName);
 				listeUsers.ajouter(user);
-			}
-			else {
+			} else {
 				user = listeUsers.recupUser(userName);
 			}
 			accueil.dispose();
 			choiseFrame.setVisible(true);
+
 		}
 	}
-
+	
+	public void favoriteAction() {
+		if(this.julia == null)return;//exception à gerer
+		Julia j = this.julia;
+		if(user.dejaSauvegarde(j)) {
+			user.removeFractal(j);
+		}
+		listeUsers.addFratalExpression(j, user.getName());
+	}
+	
+	public void loadFavoriteAction() {
+		LinkedList<Julia> usersJulias = listeUsers.recupUser(user.getName()).getFractalList();
+		ArrayList<String> constantsList = (ArrayList<String>) usersJulias.stream().map(j->j.
+				getC().toString() ).collect(Collectors.toList());
+		if(constantsList.size()==0)return;//exception à gérer
+		String input = (String) JOptionPane.showInputDialog(null, "Mes fractales",
+		        "Choisir la constante de votre fractale", JOptionPane.QUESTION_MESSAGE, null, // Use
+		                                                                        // default
+		                                                                        // icon
+		        constantsList.toArray(), // Array of choices
+		        constantsList.get(0)); // Initial choice
+		if(input==null)return;
+		Julia julia2=null;
+		for(Julia x : usersJulias) {
+			if(x.getC().toString().equals(input))julia2=x;
+		}
+		fillBoxes(julia2);
+	}
+	
+	public void fillBoxes(Julia j) {
+		choiseFrame.getConstante().setText(j.getC().toString());
+		choiseFrame.getLargeur().setText(""+j.getWidth());
+		choiseFrame.getLongueur().setText(""+j.getHeight());
+		choiseFrame.getMaxIteration().setText(""+j.getIterations());
+		
+	}
 	public void zoomListner() {
 		
 		fractalPane.getImagePane().addMouseListener(new MouseInputListener() {
@@ -259,14 +314,17 @@ public class Controlor {
 			public void mouseDragged(MouseEvent arg0) {
 			}
 
+			
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				fractalPane.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
 				Point p = new Point(prevX,prevY);
 				if(e.getX()!=prevX || e.getY() !=prevY) {
 					fractalPane.deplace(p);
 					update();
 					fractalPane.getImagePane().repaint();
-				}
+									}
 
 			}
 
@@ -274,6 +332,8 @@ public class Controlor {
 			public void mousePressed(MouseEvent e) {
 				prevX = e.getX();
 				prevY = e.getY();
+				fractalPane.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
+				
 			}
 
 			@Override
@@ -300,7 +360,6 @@ public class Controlor {
 					fractalPane.zoom(p, 1.5);
 					update();
 					fractalPane.getImagePane().repaint();
-					
 				}
 
 			}

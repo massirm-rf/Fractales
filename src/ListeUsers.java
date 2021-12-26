@@ -2,17 +2,25 @@ import java.io.*;
 import java.util.LinkedList;
 
 public class ListeUsers implements Serializable {
-    private LinkedList<User> liste = new LinkedList<User>() ;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private LinkedList<User> liste = new LinkedList<User>() ;
 
-    public ListeUsers(){
+    @SuppressWarnings("unchecked")
+	public ListeUsers(){
         try{
-            FileInputStream fis = new FileInputStream("Sauvegarde/UsersListe");
+            FileInputStream fis = new FileInputStream("../saves/usersList");
             ObjectInputStream ois = new ObjectInputStream(fis);
             liste=((LinkedList<User>) ois.readObject());
         }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        catch (IOException e) {
+			e.printStackTrace();
+		}
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -42,17 +50,16 @@ public class ListeUsers implements Serializable {
      * sauvegarder de nouvelles informations ( utilisateur, fonctions..) sur la BDD
      */
     public void sauvegarder() {
-        try {
-
-            FileOutputStream fos = new FileOutputStream("Sauvegarde/UsersListe");
-            ObjectOutputStream os = new ObjectOutputStream(fos);
-            os.writeObject(liste);
-            os.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+		 try {
+				FileOutputStream fos = new FileOutputStream("../saves/usersList");
+				
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				oos.writeObject(liste);
+				oos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}	
+	}
 
     /**
      *    recuperation de l'utilisateur 'name' avec ses information
@@ -76,8 +83,8 @@ public class ListeUsers implements Serializable {
      * @param Foncexpression
      * @param username
      */
-    public void addFonction(String Foncexpression, String username){
-        recupUser(username).getListeFonctions().add(Foncexpression);
+    public void addFratalExpression(Julia j, String username){
+        recupUser(username).getFractalList().add(j);
         sauvegarder();
     }
 

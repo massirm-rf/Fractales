@@ -3,9 +3,14 @@ import java.util.LinkedList;
 
 public class User implements Serializable {
 
-    private String name;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    private LinkedList<String> FractalsList ;/** filtre par defaut ( le meme que pour le zoomController) */
+	private String name;
+
+    private LinkedList<Julia> FractalsList ;/** filtre par defaut ( le meme que pour le zoomController) */
 
     public User(String name){
         this.name=name;
@@ -16,21 +21,28 @@ public class User implements Serializable {
         return  name;
     }
 
-    public LinkedList<String> getListeFonctions(){
+    public LinkedList<Julia> getFractalList(){
         return  FractalsList;
     }
 
-    /**
+	/**
      * verifie si la une fonction est deja enregistree par l'utilisateur
      * @param FoncExpression
      * @return
      */
-    public Boolean dejaSauvegarde(String FoncExpression){
+    public Boolean dejaSauvegarde(Julia julia){
         int n = 0;
         while(n<FractalsList.size()) {
-            if(FractalsList.get(n).equalsIgnoreCase(FoncExpression)) return true;
+            if(FractalsList.get(n).getC().toString().equals(julia.getC().toString())) return true;
             n++;
         }
         return false;
+    }
+    
+    public void removeFractal(Julia julia) {
+    	for(Julia j : FractalsList) {
+    		if(j.getC().toString().equals(julia.getC().toString())) 
+    			FractalsList.remove(j);
+    	}
     }
 }

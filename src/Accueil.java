@@ -17,22 +17,26 @@ public class Accueil extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Accueil(Controlor controleur) {
-		this.controleur = controleur;
+	public Accueil() {
+		
 		setResizable(false);
+		setTitle("Fractal Generator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 700);
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton connexionButton = new JButton("Connexion");
+		connexionButton = new JButton("Connexion");
 		connexionButton.setBounds(290, 217, 120, 30);
 		contentPane.add(connexionButton);
 		
 		JButton helpButton = new JButton("Aide");
 		helpButton.setBounds(290, 302, 120, 30);
 		contentPane.add(helpButton);
+		
+		this.controleur = new Controlor(this);
+		if(controleur == null)System.out.println("controleur is null");
 		
 		try {
 			ImagePanel backGround = new ImagePanel("../images/abstract-fractal-background-11.png");
@@ -41,7 +45,6 @@ public class Accueil extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//System.out.println (JOptionPane.showInputDialog(this, "nom") );
 		
 	}
 
