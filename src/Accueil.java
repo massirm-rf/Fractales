@@ -29,6 +29,7 @@ public class Accueil extends JFrame {
 		
 		connexionButton = new JButton("Connexion");
 		connexionButton.setBounds(290, 217, 120, 30);
+		//connexionButton.setContentAreaFilled(false);
 		contentPane.add(connexionButton);
 		
 		JButton helpButton = new JButton("Aide");

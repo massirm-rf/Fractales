@@ -113,10 +113,6 @@ public class ChoiseFrame extends JFrame {
 
 	    myFavoritsButton = new JButton();
 	    myFavoritsButton.setToolTipText("Ma liste de fractales");
-	    myFavoritsButton.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent arg0) {
-	    	}
-	    });
 		myFavoritsButton.setFont(new Font("Dialog", Font.BOLD, 11));
 		myFavoritsButton.setText("Mes Fractales");
 		myFavoritsButton.setBounds(10, 54, 124, 25);
