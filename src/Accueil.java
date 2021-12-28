@@ -40,7 +40,7 @@ public class Accueil extends JFrame {
 		if(controleur == null)System.out.println("controleur is null");
 		
 		try {
-			ImagePanel backGround = new ImagePanel("../images/abstract-fractal-background-11.png");
+			ImagePanel backGround = new ImagePanel("../images/accueil-back5.jpeg");
 			backGround.setBounds(0,0,700,700);
 			getContentPane().add(backGround);
 		} catch (IOException e) {

@@ -14,6 +14,9 @@ import javax.swing.JPanel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JSlider;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.UIManager;
 
 public class ChoiseFrame extends JFrame {
 
@@ -31,6 +34,7 @@ public class ChoiseFrame extends JFrame {
 	private JComboBox colorBox;
 	private JButton favoriteButton;
 	private JButton myFavoritsButton;
+	private JSlider convergeColorSlider;
 	private Controlor controleur;
 
 
@@ -38,7 +42,7 @@ public class ChoiseFrame extends JFrame {
 	 * Create the application.
 	 */
 	public ChoiseFrame(Controlor controleur) {
-		getContentPane().setForeground(Color.WHITE);
+		getContentPane().setForeground(Color.LIGHT_GRAY);
 		getContentPane().setBackground(Color.DARK_GRAY);
 		initialize(controleur);
 	}
@@ -48,7 +52,7 @@ public class ChoiseFrame extends JFrame {
 	 */
 	private void initialize(Controlor controleur) {
 		setTitle("Fractal Generator");
-		setBounds(0, 0, 450, 300);
+		setBounds(0, 0, 450, 350);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		getContentPane().setLayout(null);
@@ -98,6 +102,9 @@ public class ChoiseFrame extends JFrame {
 		maxIteration.setColumns(10);
 
 		colorBox = new JComboBox();
+		colorBox.setToolTipText("Choisir la couleur de la fractale");
+		colorBox.setModel(new DefaultComboBoxModel(new String[] {"Noir et Blanc", "Fond rouge", "Multicouleur"}));
+		colorBox.setSelectedIndex(2);
 		colorBox.setBounds(309, 180, 119, 24);
 		getContentPane().add(colorBox);
 
@@ -167,6 +174,15 @@ public class ChoiseFrame extends JFrame {
         toolBar.add(exitButton);
 		
         getContentPane().add(toolBar);
+        
+        convergeColorSlider = new JSlider();
+        convergeColorSlider.setBackground(new Color(47, 79, 79));
+        convergeColorSlider.setForeground(Color.WHITE);
+        convergeColorSlider.setEnabled(false);
+        convergeColorSlider.setMaximum(512);
+        convergeColorSlider.setValue(0);
+        convergeColorSlider.setBounds(12, 234, 416, 32);
+        getContentPane().add(convergeColorSlider);
 		
 	}
 
@@ -250,7 +266,7 @@ public class ChoiseFrame extends JFrame {
 		return myFavoritsButton;
 	}
 
-	
-	
-	
+	public JSlider getConvergeColorSlider() {
+		return convergeColorSlider;
+	}
 }

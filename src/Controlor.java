@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +29,7 @@ public class Controlor {
 	private User user;
 	private Accueil accueil;
 	private ListeUsers listUsers;
-	private int[][] colors = new int[1300][957];
+	private int[][] colors ;
 
 	public Controlor(ChoiseFrame choiseframe) {
 		this.choiseFrame = choiseframe;
@@ -47,18 +46,7 @@ public class Controlor {
 		this.fractalPane = new FractalPane(this.choiseFrame);
 		this.fractalPane.setControleur(this);
 		this.savePath = "../Fractales generees/";
-		/*try {
-			FileInputStream fis = new FileInputStream("../saves/colors");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			colors = (int[][]) ois.readObject();
-			System.out.println(colors[0][10]);
-		}
-        catch (IOException e) {
-			e.printStackTrace();
-		}
-		catch(ClassNotFoundException e){
-			e.printStackTrace();
-		}*/
+		loadColors();
 		addActions();
 	}
 
@@ -84,6 +72,10 @@ public class Controlor {
 
 	public void setJulia(Julia julia) {
 		this.julia = julia;
+	}
+	
+	public int[][] getColor(){
+		return colors;
 	}
 
 	public boolean initialisateJulia() {
@@ -118,26 +110,23 @@ public class Controlor {
 	public boolean draw() {
 		long startTime = System.currentTimeMillis();
 		if(!initialisateJulia())return false;
+		int colorMode = choiseFrame.getColorBox().getSelectedIndex();
 		fractalPane.setTitle();
-		int[][] tab = getColors();
 		var img = new BufferedImage(julia.getWidth(), julia.getHeight(), BufferedImage.TYPE_INT_RGB);
+		int convergeRgb = choiseFrame.getConvergeColorSlider().getValue();
 		for (int i = 0; i < julia.getWidth(); i++) {
 			for (int j = 0; j < julia.getHeight(); j++) {
 				Complex z = julia.toComplex2(i, j);// à modifier
 				int it = julia.diverfgenceIndex2(z);// à verifier
 				if (it == julia.getIterations()) {
-					//img.setRGB(i, j, tab[it%956][100]);
 					img.setRGB(i, j, (0 << 16) + (0 << 8) + 0);
-					img.setRGB(i, j, tab[400][1000]);
+					//img.setRGB(i, j, colors[400][(divergeRgb+200)%512]);//1000 avant
 				} else {
-					int r= (255*it)/julia.getIterations(); int g=0; int b=0;
-					int rgb3 = (int)(4280*(Math.sin(it+600))+700) << 16 |
-                         (int) (2056*((Math.sin(it+600))+700)) << 8 |
-                          (int) (150000 *(Math.sin(it+600))+700);
-					int rgb=Color.HSBtoRGB((float)it/julia.getIterations(), 0.7f, 0.7f);
-					int rgb2 = (it << 16) + (it << 8) + it;
-					//int rgb4 = colors[i][j];
-					img.setRGB(i, j, tab[550][(it+380)%1024]);
+					int rgb;
+					if(colorMode==0)rgb= (it << 16) + (it << 8) + it;
+					else if(colorMode ==1) rgb = Color.HSBtoRGB((float)it/julia.getIterations(), 0.7f, 0.7f);
+					else rgb = colors[200][(it+convergeRgb+131)%512];
+					img.setRGB(i, j, rgb);
 				}
 			}
 		}	
@@ -200,6 +189,8 @@ public class Controlor {
 		accueil.getConnexionButton().addActionListener(l->connect());
 		choiseFrame.getFavoriteButton().addActionListener(l->favoriteAction());
 		choiseFrame.getMyFavoritsButton().addActionListener(l->loadFavoriteAction());
+		choiseFrame.getColorBox().addActionListener(l->colorModeAxtion());
+		slidersActions();
 		zoomListner();
 	}
 	
@@ -248,6 +239,8 @@ public class Controlor {
 	public void exitListner() {
 		choiseFrame.dispose();
 		fractalPane.dispose();
+		new Accueil().setVisible(true);
+		
 	}
 	
 	public boolean testImageInpanel() {
@@ -263,8 +256,9 @@ public class Controlor {
 		String userName = "";
 		while (userName.equals("")) {
 			userName = JOptionPane.showInputDialog(accueil, "Veuiller saisir votre username");
+			if(userName==null)return;//pour eviter la NullPointerException
 		}
-
+		
 		if (!listeUsers.Existe(userName)) {
 			user = new User(userName);
 			listeUsers.ajouter(user);
@@ -314,32 +308,28 @@ public class Controlor {
 		
 	}
 
-	public int[][] getColors() {
-		BufferedImage image;
-
+	public void loadColors() {
 		try {
-			image = ImageIO.read(new File("../images/multicolor.jpg"));
-			int width = image.getWidth();
-			int height = image.getHeight();
-			int[][] result = new int[height][width];
-
-			for (int row = 0; row < height; row++) {
-				for (int col = 0; col < width; col++) {
-					int c = image.getRGB(col, row);
-					int b = c & 0xff;
-					int g = (c & 0xff00) >> 8;
-					int r = (c & 0xff0000) >> 16;
-					int co = (r << 16) | (g << 8) | b;
-					result[row][col] = co;
-
-				}
-			}
-			return result;
+			FileInputStream fis = new FileInputStream("../data colors/texture-colors");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			colors = (int[][]) ois.readObject();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
-
-		return null;
+	}
+	
+	public void slidersActions() {
+		//if(fractalPane.getImagePane().getImage()==null)return;
+		choiseFrame.getConvergeColorSlider().addChangeListener(l->update());
+	}
+	
+	public void colorModeAxtion() {
+		System.out.println(choiseFrame.getColorBox().getSelectedIndex());
+		if(choiseFrame.getColorBox().getSelectedIndex()!=2)choiseFrame.getConvergeColorSlider().setEnabled(false);
+		else choiseFrame.getConvergeColorSlider().setEnabled(true);
+		draw();
 	}
 	public void zoomListner() {
 		

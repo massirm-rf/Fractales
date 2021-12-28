@@ -17,7 +17,7 @@ public class main2 {
 		acceuil.setVisible(true);
 		/*BufferedImage image;
 		try {
-			image = ImageIO.read(new File("../images/multicolor.png"));
+			image = ImageIO.read(new File("../images/texture.jpeg"));
 			int width = image.getWidth();
 			int height = image.getHeight();
 			int[][] result = new int[height][width];
@@ -30,18 +30,17 @@ public class main2 {
 					int r = (c & 0xff0000) >> 16;
 					int co = (r << 16) | (g << 8) | b;
 					result[row][col] = co;
-					FileOutputStream fos = new FileOutputStream("../saves/colors");
-					
-					ObjectOutputStream oos = new ObjectOutputStream(fos);
-					oos.writeObject(result);
-					oos.close();
 				}
 			}
+			FileOutputStream fos = new FileOutputStream("../data colors/texture-colors");
+			
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(result);
+			oos.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} */
-		
+		} 
+		*/
 		
 	
 		//choiseFrame.setVisible(true);

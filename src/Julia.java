@@ -18,6 +18,7 @@ public class Julia implements Serializable{
 	private int iterations;
 	private double pas,minI,maxI,minR,maxR;
 	private Parser parser;
+	private ColorChoice colorMode;
 	
 	
 	public Julia (Complex c) {
