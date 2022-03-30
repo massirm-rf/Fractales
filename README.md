@@ -24,7 +24,7 @@ Afin de faciliter l'utilisation de cette application, on a crée un script sous 
 
 ## Comment utiliser Fractal Generator ?
 
-#Executer l'application en graphique:
+# Executer l'application en graphique:
 Pour lancer la partie graphique du programme, il suffit d'ouvrir le terminal et ensuite se placer dans le répertoire du projet "src" et ensuite lancer la commande: ./launch.sh
 
 - La compilation sera faite automatiquement après le lancement de la commande citée ci-dessus, et ensuite l'execution automatique de la classe Main qui lancera le programme.
