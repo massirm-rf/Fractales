@@ -73,7 +73,7 @@ public class FractalPane extends JFrame implements Zoomable {
 			this.controleur.getJulia().setMaxR(complexCenter.getReal() + largeur / 2);  
 			this.controleur.getJulia().setMinI(complexCenter.getImaginary() - longueur / 2) ;
 			this.controleur.getJulia().setMaxI(complexCenter.getImaginary() + longueur / 2) ;
-			zoom *= factor; 
+			zoom /= factor; 
 			
 	}
 	

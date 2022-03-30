@@ -79,7 +79,7 @@ public class Complex implements Serializable{
 	public static Complex fromPolarCoordinates(double rho,double theta) {
 		return new Complex(rho*Math.cos(theta),rho*Math.sin(theta));
 	}
-	
+	//transformer un string en complex (parser pour la constante C)
 	public static Complex stringToComplex(String s) {
 		s=s.replaceAll("\\s+", "");
 		if(s.length() == 0) return new Complex(0,0);

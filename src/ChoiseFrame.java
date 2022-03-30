@@ -1,22 +1,18 @@
 import javax.swing.JFrame;
 import java.awt.GridLayout;
-
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-
 import java.awt.Color;
 import javax.swing.JToolBar;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSlider;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.UIManager;
 
 public class ChoiseFrame extends JFrame {
 
@@ -36,6 +32,7 @@ public class ChoiseFrame extends JFrame {
 	private JButton myFavoritsButton;
 	private JSlider convergeColorSlider;
 	private Controlor controleur;
+	private JComboBox fractalTypeBox;
 
 
 	/**
@@ -50,6 +47,7 @@ public class ChoiseFrame extends JFrame {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings("unchecked")
 	private void initialize(Controlor controleur) {
 		setTitle("Fractal Generator");
 		setBounds(0, 0, 450, 350);
@@ -70,7 +68,7 @@ public class ChoiseFrame extends JFrame {
 		height.setColumns(10);
 
 		constante = new JTextField();
-		constante.setText("-0.7269+0.1889i");
+		constante.setText("0.285+0.01i");
 		constante.setBounds(10, 120, 120, 25);
 		getContentPane().add(constante);
 		constante.setColumns(10);
@@ -104,7 +102,7 @@ public class ChoiseFrame extends JFrame {
 		colorBox = new JComboBox();
 		colorBox.setToolTipText("Choisir la couleur de la fractale");
 		colorBox.setModel(new DefaultComboBoxModel(new String[] {"Noir et Blanc", "Fond rouge", "Multicouleur"}));
-		colorBox.setSelectedIndex(2);
+		colorBox.setSelectedIndex(0);
 		colorBox.setBounds(309, 180, 119, 24);
 		getContentPane().add(colorBox);
 
@@ -131,12 +129,17 @@ public class ChoiseFrame extends JFrame {
 		favoriteButton.setFocusable(false);
 		favoriteButton.setBounds(388, 37, 40, 40);
 		getContentPane().add(favoriteButton);
-
 		initialiserToolBar();
+		
+		aboutButton.addActionListener(l->aboutAction());
+		helpButton.addActionListener(l->helpAction());
+
+		
 		this.controleur = controleur;
 
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void initialiserToolBar() {
 		
 		JToolBar toolBar = new JToolBar();
@@ -170,7 +173,7 @@ public class ChoiseFrame extends JFrame {
         toolBar.addSeparator();
         
         exitButton = new JButton(new ImageIcon("../images/exit.png"));
-        exitButton.setToolTipText("Exit (ALT+F4) ");
+        exitButton.setToolTipText("Deconnecxion");
         toolBar.add(exitButton);
 		
         getContentPane().add(toolBar);
@@ -183,6 +186,12 @@ public class ChoiseFrame extends JFrame {
         convergeColorSlider.setValue(0);
         convergeColorSlider.setBounds(12, 234, 416, 32);
         getContentPane().add(convergeColorSlider);
+        
+        fractalTypeBox = new JComboBox();
+        fractalTypeBox.setModel(new DefaultComboBoxModel(new String[] {"Julia", "Mandelbrot"}));
+        fractalTypeBox.setSelectedIndex(0);
+        fractalTypeBox.setBounds(180, 53, 120, 24);
+        getContentPane().add(fractalTypeBox);
 		
 	}
 
@@ -269,4 +278,30 @@ public class ChoiseFrame extends JFrame {
 	public JSlider getConvergeColorSlider() {
 		return convergeColorSlider;
 	}
+
+	public JComboBox getFractalTypeBox() {
+		return fractalTypeBox;
+	}
+	
+	private void aboutAction() {
+		JOptionPane.showMessageDialog(null, "Fractal Generator est une application developee par CHALAL Massinissa \n"
+				+ "C'est une application qui permet de creer facilement vos fractales. Vous en avez peut-etre deja entendu parler", "a propos de l'application",
+				JOptionPane.INFORMATION_MESSAGE, null);
+	}
+	
+	private void helpAction() {
+		JOptionPane.showMessageDialog(null, "Ci dessous, une liste de constantes qu'on vous suggere afin "
+				+ "de generer des fractales d'ensemble de julia, essayer les et admirer!\n- 0.7269 + 0.1889i\n"
+				+ "0.3 + 0.5 i\n"
+				+ "0.285 + 0.01 i\n- 1.476\n"
+				+ "- 1.417022285618 + 0.0099534 i\n- 0.038088 + 0.9754633 i\n 0,285 + 0,013 i\n- 0.8i\n- 1 + 0.2i\n- 0.8 + 0.4i\n- 0.6 + 0.6i"
+				+ "\n0.39 + 0.4i\n- 0.8 + 0.2i\0.39 + 0.6i\n- 0.8+0.156i"
+				, "Fractales suggestions",
+				JOptionPane.INFORMATION_MESSAGE, null);
+	}
+	
+	
+	
+	
+	
 }

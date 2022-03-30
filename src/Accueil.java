@@ -29,10 +29,9 @@ public class Accueil extends JFrame {
 		
 		connexionButton = new JButton("Connexion");
 		connexionButton.setBounds(290, 217, 120, 30);
-		//connexionButton.setContentAreaFilled(false);
 		contentPane.add(connexionButton);
 		
-		JButton helpButton = new JButton("Aide");
+		JButton helpButton = new JButton("A propos");
 		helpButton.setBounds(290, 302, 120, 30);
 		contentPane.add(helpButton);
 		
@@ -46,6 +45,7 @@ public class Accueil extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		helpButton.addActionListener(l->aProposAction());
 		
 	}
 
@@ -59,6 +59,13 @@ public class Accueil extends JFrame {
 
 	public JButton getHelpButton() {
 		return helpButton;
+	}
+	
+	private void aProposAction() {
+			JOptionPane.showMessageDialog(null, "Fractal Generator est une application developee par Mr CHALAL Massinissa \n"
+					+ "C'est une application qui permet de creer facilement vos fractales. Vous en avez peut-etre deja entendu parler."
+					+ "\nConnectez-vous et admirez !!", "a propos de l'application",
+					JOptionPane.INFORMATION_MESSAGE, null);
 	}
 	
 }

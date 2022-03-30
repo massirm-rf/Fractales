@@ -26,9 +26,9 @@ public class MyRun implements Runnable {
 		int[][]colors = controleur.getColor();
 		for (int i = startX; i < endX; i++) {
 			for (int j = startY; j < endY; j++) {
-				Julia julia =controleur.getJulia();
+				Fractale julia =controleur.getJulia();
 				Complex z = julia.toComplex(new Point(i, j));
-				int it = julia.diverfgenceIndex2(z);
+				int it = julia.divergenceIndex(z);
 				if (it >= julia.getIterations()) {
 					image.setRGB(i, j, (0 << 16) + (0 << 8) + 0);
 					

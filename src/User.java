@@ -10,7 +10,7 @@ public class User implements Serializable {
 
 	private String name;
 
-    private LinkedList<Julia> FractalsList ;/** filtre par defaut ( le meme que pour le zoomController) */
+    private LinkedList<Julia> FractalsList ;/** filtre par defaut*/
 
     public User(String name){
         this.name=name;

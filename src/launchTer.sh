@@ -1,3 +1,3 @@
 javac *.java;
-java GraphiqueLauncher;
+java main;
 rm -r *.class
