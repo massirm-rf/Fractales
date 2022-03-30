@@ -1,9 +1,9 @@
-## Fractales Generator : 
+# Fractales Generator : 
 
 Fractal Generator est une application qui permet de creer facilement vos fractales (ensembles de Julia et Mandelbrot). Vous en avez peut-etre deja entendu parler.
 
 
-## Fonctionalités :
+# Fonctionalités :
 
 - Une page de connexion qui permet à l'utilisateur de s'identifier directement avec un username pour acceder à la page de fractal Generator.
 - Une interface graphique jolie et bien soignée.
@@ -22,9 +22,9 @@ Fractal Generator est une application qui permet de creer facilement vos fractal
 Afin de faciliter l'utilisation de cette application, on a crée un script sous le nom de "launch.sh" qui se trouve dans le répertoire : src.
 
 
-## Comment utiliser Fractal Generator ?
+# Comment utiliser Fractal Generator ?
 
-# Executer l'application en graphique:
+## Executer l'application en graphique:
 Pour lancer la partie graphique du programme, il suffit d'ouvrir le terminal et ensuite se placer dans le répertoire du projet "src" et ensuite lancer la commande: ./launch.sh
 
 - La compilation sera faite automatiquement après le lancement de la commande citée ci-dessus, et ensuite l'execution automatique de la classe Main qui lancera le programme.
